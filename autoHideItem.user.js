@@ -37,10 +37,26 @@ var inline_src = (<><![CDATA[
     const items = document.querySelectorAll('#content_listContainer > li');
 
     for (let item of items) {
-    const i = item.querySelector('div.item');
-    const id = i.id;
-    i.insertAdjacentHTML('afterbegin', `<a href="${EDIT_PAGE_URL_BASE}dispatch=edit&course_id=${courseId}&content_id=${id}&mytag=yes">Hide?</a>`);
+      const i = item.querySelector('div.item');
+      const id = i.id;
+      const hideParam = _isHidden(item) ? '0' : '1'; // 0: show, 1: hide
+
+      i.insertAdjacentHTML('afterbegin', `<a href="${EDIT_PAGE_URL_BASE}dispatch=edit&course_id=${courseId}&content_id=${id}&hide=${hideParam}">${hideParam === '1' ? 'Hide' : 'Show'}</a>`);
     }
+  }
+
+  function _isHidden(item) {
+    const hiddenPhrase = 'Item is not available.';
+    let result = false;
+    let details = item.querySelectorAll('.details .detailsValue');
+
+    for (let d of details) {
+      if (d.innerHTML === hiddenPhrase) {
+        result = true;
+      }
+    }
+
+    return result;
   }
 
   function editPage() {
