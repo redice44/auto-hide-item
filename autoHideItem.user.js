@@ -7,7 +7,7 @@
 // @require      https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser-polyfill.min.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser.min.js
 // @match        https://fiu.blackboard.com/webapps/blackboard/content/listContentEditable.jsp?*
-// @match        https://fiu.blackboard.com/webapps/blackboard/execute/manageCourseItem?*&mytag=yes
+// @match        https://fiu.blackboard.com/webapps/blackboard/execute/manageCourseItem?*&hide=*
 // ==/UserScript==
 
 /* jshint ignore:start */
@@ -16,7 +16,7 @@ var inline_src = (<><![CDATA[
 /* jshint esnext: true */
   const CONTENT_PAGE_URL_BASE = 'https://fiu.blackboard.com/webapps/blackboard/content/listContentEditable.jsp?';
   const EDIT_PAGE_URL_BASE = 'https://fiu.blackboard.com/webapps/blackboard/execute/manageCourseItem?';
-  let PAGE_URL = document.URL;
+  const PAGE_URL = document.URL;
 
   init();
 
@@ -60,8 +60,19 @@ var inline_src = (<><![CDATA[
   }
 
   function editPage() {
-    document.querySelector('#isAvailable_false').checked = true;
+    const hideParam = _getHideParam();
+
+    if (hideParam === '1') {
+      document.querySelector('#isAvailable_false').checked = true;
+    } else {
+      document.querySelector('#isAvailable_true').checked = true;
+    }
     document.querySelector('.submitStepTop input[name=top_Submit]').click();
+  }
+
+  function _getHideParam() {
+    let p = PAGE_URL.split('&');
+    return p[p.length - 1].split('=')[1]; // Hide param is known to be last.
   }
 
 
