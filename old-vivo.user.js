@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Old ViVo Notification
 // @namespace    http://tampermonkey.net/
-// @version      0.1a
+// @version      0.1.1
 // @description  Alerts on old vivo links
 // @author       Matt Thomson <red.cataclysm@gmail.com>
 // @require      https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser-polyfill.min.js
@@ -20,7 +20,7 @@ let vivo = [];
 for (let l of links) {
   if (l.href.includes('vivoId=')) {
     console.log(l);
-    vivo.push(l.innerHTML);
+    vivo.push(l.innerText);
   }
 }
 if (vivo.length > 0) {
