@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Old ViVo Notification
 // @namespace    http://tampermonkey.net/
-// @version      0.1.1
+// @version      0.1.2
 // @description  Alerts on old vivo links
 // @author       Matt Thomson <red.cataclysm@gmail.com>
 // @require      https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser-polyfill.min.js
@@ -16,21 +16,19 @@ var inline_src = (<><![CDATA[
 
 // Your code here...
 let links = document.querySelectorAll('#content_listContainer a');
-let vivo = [];
+let items = [];
+let linkFlag = 'vivoId=';
+
 for (let l of links) {
-  if (l.href.includes('vivoId=')) {
-    console.log(l);
-    vivo.push(l.innerText);
+  if (l.href.includes(linkFlag)) {
+    items.push(l.innerText);
+    l.setAttribute('style', 'background-color: #FF0000');
   }
 }
-if (vivo.length > 0) {
-  let items = '';
-
-  for (let i of vivo) {
-    items += `${i}\n`;
-  }
-
-  alert (`There are ${vivo.length} old vivo links on this page.\nLinks:\n\n${items}`);
+if (items.length > 0) {
+  alert (`There are ${items.length} old vivo link(s) on this page highlighted in red.`);
+  // List out items in console
+  console.log(items);
 }
 
 /* jshint ignore:start */

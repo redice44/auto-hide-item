@@ -16,17 +16,19 @@ var inline_src = (<><![CDATA[
 
 // Your code here...
 let links = document.querySelectorAll('#content_listContainer a');
-let mediasites = [];
+let items = [];
+let linkFlag = 'fiuonline.mediasite.com';
+
 for (let l of links) {
-  if (l.href.includes('fiuonline.mediasite.com')) {
-    mediasites.push(l.innerText);
+  if (l.href.includes(linkFlag)) {
+    items.push(l.innerText);
     l.setAttribute('style', 'background-color: #FF0000');
   }
 }
-if (mediasites.length > 0) {
-  alert (`There are ${mediasites.length} old MediaSites link(s) on this page highlighted in red.`);
+if (items.length > 0) {
+  alert (`There are ${items.length} old vivo link(s) on this page highlighted in red.`);
   // List out items in console
-  console.log(mediasites);
+  console.log(items);
 }
 
 /* jshint ignore:start */
